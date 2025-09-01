@@ -1,0 +1,32 @@
+# SPDX-License-Identifier: Apache-2.0
+name: shell-lint
+on:
+permissions:
+  contents: read
+  id-token: none
+  actions: read
+  pull_request:
+  push:
+    branches: [ main ]
+jobs:
+  shfmt-shellcheck:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install shfmt & shellcheck
+        run: |
+          sudo apt-get update && sudo apt-get install -y shellcheck
+          curl -sSLo /usr/local/bin/shfmt https://github.com/mvdan/sh/releases/download/v3.7.0/shfmt_v3.7.0_linux_amd64
+          chmod +x /usr/local/bin/shfmt
+      - name: shfmt check
+        run: shfmt -d -s .
+      - name: shellcheck
+        run: |
+          shopt -s nullglob
+          files=$(git ls-files '*.sh' | tr '\n' ' ')
+          [ -z "$files" ] || shellcheck $files
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true

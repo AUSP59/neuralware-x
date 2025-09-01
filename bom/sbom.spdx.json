@@ -1,0 +1,21 @@
+{
+  "spdxVersion": "SPDX-2.3",
+  "dataLicense": "CC0-1.0",
+  "SPDXID": "SPDXRef-DOCUMENT",
+  "name": "NEURALWARE-X-sbom",
+  "documentNamespace": "https://example.org/spdxdocs/NEURALWARE-X-2025",
+  "creationInfo": {
+    "creators": [
+      "Tool: sbom-generator/0.1",
+      "Organization: NEURALWARE-X"
+    ],
+    "created": "2025-08-31T19:47:43Z"
+  },
+  "packages": [
+    {
+      "name": "neuralwarex",
+      "SPDXID": "SPDXRef-Package-neuralwarex",
+      "licenseConcluded": "Apache-2.0"
+    }
+  ]
+}

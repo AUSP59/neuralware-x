@@ -1,0 +1,18 @@
+
+name: slsa-source
+on:
+  push:
+    tags: ['v*.*.*']
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+
+  provenance:
+    if: vars.ENABLE_SLSA == 'true'
+    uses: slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@v2.0.0
+    with:
+      if: vars.ENABLE_SLSA == 'true'
+      base64-subjects: ""

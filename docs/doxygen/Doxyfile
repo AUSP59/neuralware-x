@@ -1,0 +1,9 @@
+
+# Minimal Doxygen config for C++ API docs
+PROJECT_NAME           = "NEURALWARE-X"
+OUTPUT_DIRECTORY       = docs/doxygen/out
+GENERATE_HTML          = YES
+EXTRACT_ALL            = YES
+RECURSIVE              = YES
+INPUT                  = include src
+WARN_IF_UNDOCUMENTED   = NO

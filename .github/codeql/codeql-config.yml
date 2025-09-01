@@ -1,0 +1,12 @@
+# SPDX-License-Identifier: Apache-2.0
+name: "CodeQL config"
+queries:
+  - uses: security-and-quality
+paths:
+  - src
+  - include
+paths-ignore:
+  - docs
+  - site
+  - build
+  - vendor

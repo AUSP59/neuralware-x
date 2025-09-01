@@ -1,0 +1,18 @@
+# SPDX-License-Identifier: Apache-2.0
+name: Sanitizers
+on:
+  push:
+  pull_request:
+jobs:
+  asan-ubsan:
+    if: vars.ENABLE_SANITIZERS_CI == 'true'
+
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure (ASan/UBSan)
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DNWX_ENABLE_SANITIZERS=ON
+      - name: Build
+        run: cmake --build build --parallel
+      - name: Test
+        run: ctest --test-dir build --output-on-failure

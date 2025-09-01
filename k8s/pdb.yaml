@@ -1,0 +1,7 @@
+# SPDX-License-Identifier: Apache-2.0
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata: { name: nwx-serve-pdb }
+spec:
+  minAvailable: 1
+  selector: { matchLabels: { app: nwx-serve } }

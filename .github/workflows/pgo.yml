@@ -1,0 +1,22 @@
+
+name: pgo
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 5 * * 0'
+jobs:
+  pgo-build:
+    if: vars.ENABLE_PGO_CI == 'true'
+
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install deps
+        run: sudo apt-get update && sudo apt-get install -y cmake ninja-build clang lld
+      - name: PGO two-phase build
+        run: |
+          bash scripts/pgo_build.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pgo-build
+          path: build-pgo-use

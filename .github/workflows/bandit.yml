@@ -1,0 +1,15 @@
+# SPDX-License-Identifier: Apache-2.0
+name: bandit
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+permissions:
+  contents: read
+jobs:
+  bandit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: pipx install bandit
+      - run: bandit -r . -x build -ll || true

@@ -1,0 +1,21 @@
+
+name: changelog-gate
+on:
+  pull_request:
+jobs:
+  require-changelog:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            code:
+              - 'src/**'
+              - 'include/**'
+              - 'apps/**'
+      - name: Check changelog
+        if: steps.filter.outputs.code == 'true'
+        run: |
+          git fetch --depth=2 origin ${{ github.base_ref }}
+          git diff --name-only HEAD origin/${{ github.base_ref }} | grep -q '^CHANGELOG.md$' || (echo 'CHANGELOG.md update required' && exit 1)

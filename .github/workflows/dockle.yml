@@ -1,0 +1,21 @@
+# SPDX-License-Identifier: Apache-2.0
+name: dockle
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t nwx:test .
+      - uses: goodwithtech/dockle-action@v0.3.15
+        with:
+          image: nwx:test
+          format: 'sarif'
+          exit-code: '1'
+      - uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: results.sarif

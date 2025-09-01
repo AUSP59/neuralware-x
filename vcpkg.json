@@ -1,0 +1,8 @@
+{
+  "name": "neuralwarex",
+  "version-string": "11.0.0",
+  "dependencies": [
+    "openssl",
+    "zlib"
+  ]
+}

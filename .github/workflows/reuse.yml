@@ -1,0 +1,14 @@
+# SPDX-License-Identifier: Apache-2.0
+name: reuse-compliance
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+jobs:
+  reuse:
+    if: vars.ENABLE_REUSE_CI == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      if: vars.ENABLE_REUSE_CI == 'true'
+      - uses: actions/checkout@v4
+      - uses: fsfe/reuse-action@v4

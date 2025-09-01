@@ -1,0 +1,12 @@
+# SPDX-License-Identifier: Apache-2.0
+cmake_minimum_required(VERSION 3.22)
+project(nwxpy LANGUAGES CXX)
+find_package(pybind11 CONFIG QUIET)
+if (pybind11_FOUND)
+  pybind11_add_module(nwxpy MODULE module.cpp)
+  target_link_libraries(nwxpy PRIVATE nwx)
+  target_compile_features(nwxpy PRIVATE cxx_std_20)
+  install(TARGETS nwxpy LIBRARY DESTINATION .)
+else()
+  message(STATUS "pybind11 not found; Python module will not be built")
+endif()

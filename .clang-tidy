@@ -1,0 +1,3 @@
+Checks: '-*,bugprone-*,performance-*,readability-*,portability-*,modernize-*,-modernize-use-trailing-return-type'
+WarningsAsErrors: 'bugprone-*,performance-*'
+HeaderFilterRegex: '^(include|src)/'

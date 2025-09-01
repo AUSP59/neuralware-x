@@ -1,0 +1,5 @@
+# SPDX-License-Identifier: Apache-2.0
+
+title = "NEURALWARE-X gitleaks config"
+[extend]
+# Add custom allow rules here when needed.

@@ -1,0 +1,3 @@
+# SPDX-License-Identifier: Apache-2.0
+#compdef nwx
+_arguments   '--help[show help]'   '--config[config file]:file:_files'   '--dataset[data csv]:file:_files'   '--epochs[epochs]:int'   '--lr[learning rate]:float'   '--hidden[hidden units]:int'   '--seed[seed]:int'   '--save[path]:file:_files'   '--load[path]:file:_files'   '--eval[eval only]'   '--optimizer[sgd|adam]'   '--wd[weight decay]:float'   '--batch[batch size]:int'   '--val_split[val split]:float'   '--patience[patience]:int'   '--standardize[standardize features]'   '--predict[file]:file:_files'   '--predict_out[file]:file:_files'   '--history[file]:file:_files'   '--activation[relu|tanh]'   '--calibrate_temp[enable temp scaling]'   '--calibration_metric[nll|ece]'

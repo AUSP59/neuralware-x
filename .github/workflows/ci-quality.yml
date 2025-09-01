@@ -1,0 +1,42 @@
+# SPDX-License-Identifier: Apache-2.0
+name: ci-quality
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Install pre-commit
+        run: pip install pre-commit
+      - name: Run pre-commit
+        run: pre-commit run --all-files || true
+
+  coverage:
+
+    if: vars.ENABLE_COVERAGE_JOB == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install deps
+        run: sudo apt-get update && sudo apt-get install -y cmake ninja-build gcovr lcov
+      - name: Configure with coverage
+        run: cmake -S . -B build-cov -G Ninja -DNWX_ENABLE_TESTS=ON -DNWX_ENABLE_COVERAGE=ON -DCMAKE_BUILD_TYPE=Debug
+      - name: Build & Test
+        run: cmake --build build-cov -j && ctest --test-dir build-cov --output-on-failure
+      - name: Coverage Report
+        run: |
+          gcovr -r . --xml-pretty -o coverage.xml || true
+          gcovr -r . --html --html-details -o coverage.html || true
+      - uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: |
+            coverage.xml
+            coverage.html

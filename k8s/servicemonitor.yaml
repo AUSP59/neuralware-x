@@ -1,0 +1,10 @@
+# SPDX-License-Identifier: Apache-2.0
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata: { name: nwx-serve }
+spec:
+  selector: { matchLabels: { app: nwx-serve } }
+  endpoints:
+  - port: http
+    path: /metrics
+    interval: 15s

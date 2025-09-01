@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+title: NEURALWARE-X
+version: 4.0.0
+message: If you use this software, please cite it as below.
+authors:
+  - family-names: Maintainers
+    given-names: NEURALWARE-X
+license: Apache-2.0
+date-released: 2025-08-31

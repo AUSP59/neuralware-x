@@ -1,0 +1,10 @@
+Source: neuralware-x
+Section: devel
+Priority: optional
+Maintainer: NEURALWARE-X <oss@example.com>
+Standards-Version: 4.6.0
+
+Package: neuralware-x
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: NEURALWARE-X core library and tools

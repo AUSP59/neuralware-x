@@ -1,0 +1,7 @@
+# SPDX-License-Identifier: Apache-2.0
+
+enhancement: ["**/*.md", "docs/**"]
+bug: ["src/**", "include/**"]
+documentation: ["docs/**", "**/*.md"]
+ci: [".github/workflows/**"]
+security: ["SECURITY.md", "docs/**/THREAT*", ".github/workflows/security*"]

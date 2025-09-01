@@ -1,0 +1,8 @@
+# SPDX-License-Identifier: Apache-2.0
+image: ghcr.io/yourorg/neuralwarex:latest
+replicaCount: 2
+service:
+  type: ClusterIP
+  port: 80
+token: ""
+modelPath: /models/model.bundle

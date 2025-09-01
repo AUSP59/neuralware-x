@@ -1,0 +1,19 @@
+# SPDX-License-Identifier: Apache-2.0
+name: Release
+on:
+  push:
+    tags: [ 'v*' ]
+jobs:
+
+  build:
+    if: vars.ENABLE_RELEASE == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      if: vars.ENABLE_RELEASE == 'true'
+      - uses: actions/checkout@v4
+      - name: Build
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release && cmake --build build --parallel && cpack -G TGZ
+      - uses: softprops/action-gh-release@v2
+        with:
+          if: vars.ENABLE_RELEASE == 'true'
+          files: build/*.tar.gz

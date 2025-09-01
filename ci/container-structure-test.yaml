@@ -1,0 +1,12 @@
+# SPDX-License-Identifier: Apache-2.0
+schemaVersion: 2.0.0
+metadataTest:
+  user: "nonroot"
+  workdir: "/"
+  entrypoint: ["/usr/local/bin/nwx_serve","--port","8080"]
+  exposedPorts: ["8080"]
+fileExistenceTests:
+  - name: "binary exists"
+    path: "/usr/local/bin/nwx_serve"
+    shouldExist: true
+    permissions: "-r-xr-xr-x"

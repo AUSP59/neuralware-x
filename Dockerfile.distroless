@@ -1,0 +1,11 @@
+# syntax=docker/dockerfile:1
+FROM ubuntu:22.04 AS build
+RUN apt-get update && apt-get install -y cmake build-essential git
+WORKDIR /src
+COPY . .
+RUN cmake -S . -B build -DCMAKE_BUILD_TYPE=Release && cmake --build build --target nwx_serve --parallel
+FROM gcr.io/distroless/cc
+COPY --from=build /src/build/out/bin/nwx_serve /usr/local/bin/nwx_serve
+ENTRYPOINT ["/usr/local/bin/nwx_serve"]
+
+USER 65532:65532

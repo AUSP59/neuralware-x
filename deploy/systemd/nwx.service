@@ -1,0 +1,19 @@
+[Unit]
+Description=NEURALWARE-X Service
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/nwx_serve --port 8080
+User=nwx
+Group=nwx
+NoNewPrivileges=true
+ProtectSystem=full
+ProtectHome=true
+PrivateTmp=true
+AmbientCapabilities=
+CapabilityBoundingSet=
+RestrictSUIDSGID=true
+LockPersonality=true
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,2 @@
+{"epochs": 1000, "learning_rate": 0.05, "hidden": 8, "dataset": "./examples/xor.csv", "seed": 7,
+ "optimizer": "adam", "batch": 4, "val_split": 0.25, "patience": 20, "standardize": true, "weight_decay": 0.0}

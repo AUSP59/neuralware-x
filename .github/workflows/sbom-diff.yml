@@ -1,0 +1,23 @@
+# SPDX-License-Identifier: Apache-2.0
+name: sbom-diff
+on:
+  pull_request:
+jobs:
+  diff:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - name: SBOM prev
+        uses: anchore/sbom-action@v0
+        with:
+          format: spdx-json
+          output-file: sbom.prev.spdx.json
+      - run: git checkout HEAD~1 || true
+      - name: SBOM base
+        uses: anchore/sbom-action@v0
+        with:
+          format: spdx-json
+          output-file: sbom.base.spdx.json
+      - name: Diff
+        run: python3 tools/sbom_diff.py sbom.base.spdx.json sbom.prev.spdx.json || true

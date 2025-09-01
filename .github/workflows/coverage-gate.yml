@@ -1,0 +1,23 @@
+
+name: coverage-gate
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+env:
+  COVERAGE_MIN: "80"
+jobs:
+  gate:
+    if: vars.ENFORCE_COVERAGE == 'true'
+
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install deps
+        run: sudo apt-get update && sudo apt-get install -y cmake ninja-build gcovr lcov
+      - name: Configure with coverage
+        run: cmake -S . -B build-cov -G Ninja -DNWX_ENABLE_TESTS=ON -DNWX_ENABLE_COVERAGE=ON -DCMAKE_BUILD_TYPE=Debug
+      - name: Build & Test
+        run: cmake --build build-cov -j && ctest --test-dir build-cov --output-on-failure
+      - name: Enforce coverage threshold
+        run: gcovr -r . --branches --fail-under-lines ${COVERAGE_MIN}

@@ -1,0 +1,11 @@
+
+msgid ""
+msgstr ""
+"Project-Id-Version: NEURALWARE-X 0.1.0\n"
+"Language: en\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+
+# Example:
+#: src/main.cpp:1
+msgid "Usage"
+msgstr ""

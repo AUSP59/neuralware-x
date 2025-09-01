@@ -1,0 +1,11 @@
+# SPDX-License-Identifier: Apache-2.0
+checks:
+  Binary-Artifacts: true
+  Branch-Protection: true
+  Code-Review: true
+  Contributors: true
+  Dangerous-Workflow: true
+  Fuzzing: true
+  License: true
+  Security-Policy: true
+  Signed-Releases: false

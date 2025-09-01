@@ -1,0 +1,8 @@
+# SPDX-License-Identifier: Apache-2.0
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata: { name: nwx-serve-deny-egress }
+spec:
+  podSelector: { matchLabels: { app: nwx-serve } }
+  policyTypes: [Egress]
+  egress: []

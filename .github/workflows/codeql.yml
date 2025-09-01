@@ -1,0 +1,30 @@
+# SPDX-License-Identifier: Apache-2.0
+name: codeql
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+  schedule:
+    - cron: '0 3 * * 1'
+jobs:
+  analyze:
+    if: vars.ENABLE_CODEQL == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      if: vars.ENABLE_CODEQL == 'true'
+      actions: read
+      contents: read
+      security-events: write
+    strategy:
+      if: vars.ENABLE_CODEQL == 'true'
+      fail-fast: false
+    steps:
+      if: vars.ENABLE_CODEQL == 'true'
+      - uses: actions/checkout@v4
+      - uses: github/codeql-action/init@v3
+        with:
+          if: vars.ENABLE_CODEQL == 'true'
+          languages: 'cpp'
+          config-file: .github/codeql/codeql-config.yml
+      - uses: github/codeql-action/autobuild@v3
+      - uses: github/codeql-action/analyze@v3

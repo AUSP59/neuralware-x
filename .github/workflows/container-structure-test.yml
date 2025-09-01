@@ -1,0 +1,17 @@
+# SPDX-License-Identifier: Apache-2.0
+name: container-structure-test
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+jobs:
+  cst:
+    runs-on: ubuntu-latest
+    permissions: { contents: read }
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t nwx:test .
+      - name: Run container-structure-test
+        run: |
+          docker pull gcr.io/gcp-runtimes/container-structure-test:latest
+          docker run --rm -v "$PWD/ci:/ci" -v /var/run/docker.sock:/var/run/docker.sock             gcr.io/gcp-runtimes/container-structure-test:latest test             --image nwx:test --config /ci/container-structure-test.yaml
