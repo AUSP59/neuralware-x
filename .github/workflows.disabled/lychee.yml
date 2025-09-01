@@ -1,0 +1,16 @@
+
+name: link-check
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+jobs:
+  check:
+    if: vars.ENABLE_LINK_CHECK == 'true'
+
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: lycheeverse/lychee-action@v2
+        with:
+          args: --no-progress --exclude-mail --verbose .

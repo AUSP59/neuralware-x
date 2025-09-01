@@ -1,0 +1,21 @@
+# SPDX-License-Identifier: Apache-2.0
+name: openapi-lint-redoc
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+jobs:
+  openapi:
+    runs-on: ubuntu-latest
+    if: ${{ hashFiles('docs/openapi.yaml') != '' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - run: npm -g install @stoplight/spectral-cli redoc-cli
+      - run: spectral lint docs/openapi.yaml -r .spectral.yaml
+      - run: redoc-cli bundle docs/openapi.yaml -o site/openapi.html
+      - uses: actions/upload-artifact@v4
+        with:
+          name: openapi-html
+          path: site/openapi.html

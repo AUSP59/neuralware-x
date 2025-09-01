@@ -1,0 +1,12 @@
+# SPDX-License-Identifier: Apache-2.0
+name: trojan-source
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 tools/trojansource_scan.py

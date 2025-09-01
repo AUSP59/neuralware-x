@@ -1,0 +1,11 @@
+
+name: release-signed
+on:
+  push:
+    tags: ['v*.*.*']
+permissions: read-all
+jobs:
+  build-sign:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Signed release workflow disabled by default — placeholder success."

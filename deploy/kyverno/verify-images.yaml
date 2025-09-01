@@ -1,0 +1,24 @@
+# SPDX-License-Identifier: Apache-2.0
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: verify-images-nwx
+spec:
+  validationFailureAction: enforce
+  background: true
+  rules:
+    - name: require-cosign-signature
+      match:
+        any:
+        - resources:
+            kinds: ["Pod"]
+            namespaces: ["nwx", "default"]
+      verifyImages:
+        - imageReferences:
+            - "ghcr.io/*/neuralware-x:*"
+          attestors:
+            - entries:
+                - keyless:
+                    subject: "https://github.com/*/*/.github/workflows/*"
+                    issuer: "https://token.actions.githubusercontent.com"
+          failureAction: Enforce

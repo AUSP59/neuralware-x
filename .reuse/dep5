@@ -1,0 +1,7 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: NEURALWARE-X
+Source: https://github.com/your-org/neuralware-x
+
+Files: *
+Copyright: 2025 NEURALWARE-X Contributors
+License: Apache-2.0

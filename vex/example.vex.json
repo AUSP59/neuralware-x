@@ -1,0 +1,17 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "version": 1,
+  "vex": "1.0",
+  "metadata": {
+    "timestamp": "2025-09-01T00:00:00Z",
+    "tools": [
+      {
+        "vendor": "NEURALWARE-X",
+        "name": "vex-stub"
+      }
+    ]
+  },
+  "components": [],
+  "vulnerabilities": []
+}

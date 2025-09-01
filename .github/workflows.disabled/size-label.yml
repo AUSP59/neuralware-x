@@ -1,0 +1,12 @@
+
+name: size-label
+on:
+  pull_request:
+    types: [opened, synchronize]
+jobs:
+  label:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: cpanato/pr-size-labeler@v1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

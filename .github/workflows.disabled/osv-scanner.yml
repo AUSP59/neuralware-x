@@ -1,0 +1,14 @@
+# SPDX-License-Identifier: Apache-2.0
+name: osv-scanner
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+jobs:
+  osv:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: google/osv-scanner-action@v1
+        with:
+          scan-args: -r .

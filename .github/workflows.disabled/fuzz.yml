@@ -1,0 +1,19 @@
+# SPDX-License-Identifier: Apache-2.0
+name: Fuzz
+on:
+  workflow_dispatch:
+jobs:
+  fuzz:
+    if: vars.ENABLE_FUZZ == 'true'
+
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure fuzzers
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DNWX_ENABLE_FUZZ=ON
+      - name: Build
+        run: cmake --build build --parallel
+      - name: Run json_fuzz 30s
+        run: timeout 30s ./build/json_fuzz || true
+      - name: Run csv_fuzz 30s
+        run: timeout 30s ./build/csv_fuzz || true

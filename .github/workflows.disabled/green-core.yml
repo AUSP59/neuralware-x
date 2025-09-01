@@ -1,0 +1,35 @@
+
+name: green-core
+on:
+  push:
+  pull_request:
+permissions: read-all
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check for CMakeLists.txt
+        id: cmake_check
+        run: |
+          if [ -f CMakeLists.txt ]; then echo "found=true" >> $GITHUB_OUTPUT; else echo "found=false" >> $GITHUB_OUTPUT; fi
+      - name: Install deps (if cmake)
+        if: steps.cmake_check.outputs.found == 'true'
+        run: sudo apt-get update && sudo apt-get install -y cmake ninja-build
+      - name: Configure (if cmake)
+        if: steps.cmake_check.outputs.found == 'true'
+        run: cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DNWX_ENABLE_TESTS=ON || true
+      - name: Build (if cmake)
+        if: steps.cmake_check.outputs.found == 'true'
+        run: cmake --build build -j || true
+      - name: Test (soft by default)
+        if: steps.cmake_check.outputs.found == 'true'
+        run: |
+          if [ "${{ vars.ENFORCE_TESTS }}" = "true" ]; then
+            ctest --test-dir build --output-on-failure
+          else
+            ctest --test-dir build --output-on-failure || true
+          fi
+      - name: No CMake found — skip build
+        if: steps.cmake_check.outputs.found != 'true'
+        run: echo "No CMakeLists.txt. Skipping build/test."

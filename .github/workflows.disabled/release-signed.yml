@@ -1,0 +1,48 @@
+
+name: release-signed
+on:
+  push:
+    tags: ['v*.*.*']
+permissions:
+  contents: write
+  id-token: write
+jobs:
+  build-sign:
+    if: vars.ENABLE_SIGNED_RELEASE == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set source date epoch
+        run: echo "SOURCE_DATE_EPOCH=$(git log -1 --pretty=%ct)" >> $GITHUB_ENV
+      - name: Install deps
+        run: sudo apt-get update && sudo apt-get install -y cmake ninja-build
+      - name: Configure
+        run: cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DNWX_ENABLE_TESTS=OFF || true
+      - name: Build
+        run: cmake --build build -j || true
+      - name: Install
+        run: cmake --install build --prefix install || true
+      - name: Archive (reproducible)
+        run: |
+          mkdir -p install || true
+          tar --sort=name --owner=0 --group=0 --numeric-owner --mtime='UTC 2020-01-01'               -czf nwx-${{ github.ref_name }}-linux-x86_64.tar.gz -C install .
+          shasum -a 256 nwx-${{ github.ref_name }}-linux-x86_64.tar.gz > SHA256SUMS.txt
+          shasum -a 512 nwx-${{ github.ref_name }}-linux-x86_64.tar.gz > SHA512SUMS.txt
+      - name: SBOM (CycloneDX, optional)
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin
+          /usr/local/bin/syft packages dir:install -o cyclonedx-json > sbom.cdx.json || true
+      - name: Cosign keyless (optional)
+        env: { COSIGN_EXPERIMENTAL: "1" }
+        run: |
+          curl -sSL https://raw.githubusercontent.com/sigstore/cosign/main/install.sh | sudo sh -s -- -b /usr/local/bin
+          cosign sign-blob --yes nwx-${{ github.ref_name }}-linux-x86_64.tar.gz > nwx.sig || true
+      - name: Upload Release Assets
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            nwx-${{ github.ref_name }}-linux-x86_64.tar.gz
+            SHA256SUMS.txt
+            SHA512SUMS.txt
+            sbom.cdx.json
+            nwx.sig

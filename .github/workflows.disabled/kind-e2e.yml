@@ -1,0 +1,33 @@
+# SPDX-License-Identifier: Apache-2.0
+name: kind-e2e
+on:
+permissions:
+  contents: read
+  id-token: none
+  actions: read
+  pull_request:
+  push:
+    branches: [ main ]
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: helm/kind-action@v1.10.0
+      - name: Build local image
+        run: docker build -t nwx:e2e .
+      - name: Load image into kind
+        run: kind load docker-image nwx:e2e
+      - name: Install Helm chart
+        run: |
+          helm upgrade --install nwx ./deploy/helm/nwx             --set image.repository=nwx --set image.tag=e2e --set image.pullPolicy=Never             --set service.type=ClusterIP
+      - name: Wait for rollout
+        run: kubectl rollout status deploy/nwx --timeout=120s
+      - name: Probe /healthz via test pod
+        run: |
+          kubectl run curl --image=curlimages/curl --restart=Never -i --rm --             curl -fsS http://nwx:80/healthz
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true

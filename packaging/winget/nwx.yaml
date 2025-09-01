@@ -1,0 +1,10 @@
+# SPDX-License-Identifier: Apache-2.0
+Id: NEURALWAREX.NWX
+Publisher: NEURALWARE-X
+Name: NWX
+Version: 0.1.0
+InstallerType: zip
+Installers:
+  - Architecture: x64
+    InstallerUrl: https://example.com/nwx/releases/download/v0.1.0/nwx-0.1.0-windows-x86_64.zip
+    InstallerSha256: <fill-on-release>

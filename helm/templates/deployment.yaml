@@ -1,0 +1,26 @@
+# SPDX-License-Identifier: Apache-2.0
+apiVersion: apps/v1
+kind: Deployment
+metadata: { name: {{ include "neuralwarex.fullname" . }} }
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector: { matchLabels: { app: {{ include "neuralwarex.name" . }} } }
+  template:
+    metadata: { labels: { app: {{ include "neuralwarex.name" . }} } }
+    spec:
+      containers:
+      - name: nwx-serve
+        securityContext:
+          runAsNonRoot: true
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities: { drop: ["ALL"] }
+          seccompProfile: { type: RuntimeDefault }
+        image: {{ .Values.image }}
+        args: ["./nwx_serve","{{ .Values.modelPath }}","8080"]
+        env:
+        - name: NWX_TOKEN
+          value: "{{ .Values.token }}"
+        ports: [{ containerPort: 8080 }]
+        readinessProbe: { httpGet: { path: /readyz, port: 8080 } }
+        livenessProbe:  { httpGet: { path: /healthz, port: 8080 } }

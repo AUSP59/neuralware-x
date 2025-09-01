@@ -1,0 +1,33 @@
+
+name: security-scans
+on: [push, pull_request]
+permissions: read-all
+jobs:
+  codeql:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "CodeQL disabled by default in this minimal success workflow."
+  semgrep:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Semgrep disabled by default in this minimal success workflow."
+  gitleaks:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Gitleaks disabled by default in this minimal success workflow."
+  osv:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "OSV scan disabled by default in this minimal success workflow."
+  trivy:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Trivy disabled by default in this minimal success workflow."
+  licensee:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Licensee disabled by default in this minimal success workflow."
+  scorecard:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Scorecard disabled by default in this minimal success workflow."

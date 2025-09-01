@@ -1,0 +1,16 @@
+
+name: semgrep
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+jobs:
+  semgrep:
+    if: vars.ENABLE_SEMGREP == 'true'
+
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: returntocorp/semgrep-action@v1
+        with:
+          config: p/c # default policies

@@ -1,0 +1,10 @@
+module nwx 1.0;
+
+require {
+  type usr_t;
+  type init_t;
+  class tcp_socket name_connect;
+}
+
+# Allow connecting to network as a confined domain (example only)
+allow usr_t init_t:tcp_socket name_connect;

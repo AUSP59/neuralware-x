@@ -1,0 +1,11 @@
+# SPDX-License-Identifier: Apache-2.0
+apiVersion: v1
+kind: Service
+metadata: { name: nwx-serve }
+spec:
+  selector: { app: nwx-serve }
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8080
+    protocol: TCP

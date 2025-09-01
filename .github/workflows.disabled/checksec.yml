@@ -1,0 +1,16 @@
+# SPDX-License-Identifier: Apache-2.0
+name: checksec
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+jobs:
+  sec:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y checksec || true
+      - run: |
+          cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DNWX_HARDEN=ON -DNWX_LTO=ON
+          cmake --build build -j2 || true
+      - run: bash tools/checksec.sh build/bin/nwx_serve || true

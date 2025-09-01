@@ -1,0 +1,18 @@
+# SPDX-License-Identifier: Apache-2.0
+name: doxygen
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y doxygen graphviz
+      - run: doxygen Doxyfile || true
+      - uses: actions/upload-artifact@v4
+        with:
+          name: doxygen-html
+          path: docs/doxygen/html
+          if-no-files-found: ignore

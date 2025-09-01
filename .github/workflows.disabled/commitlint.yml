@@ -1,0 +1,18 @@
+# SPDX-License-Identifier: Apache-2.0
+name: conventional-commits
+on:
+  pull_request_target:
+    types: [opened, edited, synchronize]
+jobs:
+  lint:
+    if: vars.ENFORCE_COMMITLINT == 'true'
+
+    permissions:
+      pull-requests: read
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: wagoid/commitlint-github-action@v6
+        with:
+          configFile: .commitlintrc.json

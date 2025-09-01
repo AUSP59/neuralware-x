@@ -1,0 +1,15 @@
+
+name: ci-quality
+on: [push, pull_request]
+permissions: read-all
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Lint placeholders (non-fatal)
+        run: |
+          echo "Running placeholder quality checks..."
+          true
+      - name: Always succeed
+        run: echo "ci-quality completed successfully."

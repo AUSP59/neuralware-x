@@ -1,0 +1,4 @@
+*       @maintainers-team
+/docs/  @docs-team
+/src/   @core-team
+/tests/ @qa-team

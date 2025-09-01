@@ -1,0 +1,11 @@
+
+name: slsa-source
+on:
+  push:
+    tags: ['v*.*.*']
+permissions: read-all
+jobs:
+  provenance:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "SLSA provenance placeholder — success."

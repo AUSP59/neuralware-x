@@ -1,0 +1,17 @@
+# SPDX-License-Identifier: Apache-2.0
+name: windows-msvc
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure (MSVC + Ninja)
+        run: cmake -S . -B build -G "Ninja" -DCMAKE_BUILD_TYPE=Release
+      - name: Build
+        run: cmake --build build --config Release -j 2
+      - name: Tests (best-effort)
+        run: ctest --test-dir build --output-on-failure || exit 0

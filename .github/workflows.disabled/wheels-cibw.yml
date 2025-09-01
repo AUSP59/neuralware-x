@@ -1,0 +1,24 @@
+# SPDX-License-Identifier: Apache-2.0
+name: Wheels (cibuildwheel)
+on:
+  workflow_dispatch:
+  push:
+    tags: ['v*']
+jobs:
+  build_wheels:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pypa/cibuildwheel@v2.20.0
+        env:
+          CIBW_SKIP: "pp* *-musllinux*"
+          CIBW_BUILD_VERBOSITY: 1
+        with:
+          package-dir: .
+      - uses: actions/upload-artifact@v4
+        with:
+          name: wheels-${{ matrix.os }}
+          path: wheelhouse/*.whl

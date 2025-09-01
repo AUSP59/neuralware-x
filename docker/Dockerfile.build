@@ -1,0 +1,12 @@
+# Multi-arch build environment for NEURALWARE-X
+FROM ubuntu:24.04
+
+ARG DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && apt-get install -y --no-install-recommends     build-essential cmake git pkg-config ninja-build     clang lld llvm     gcovr lcov     clang-tidy cppcheck     && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /workspace
+COPY . /workspace
+
+# Example build (uncomment to build during docker build)
+# RUN cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release \
+#     && cmake --build build -j

@@ -1,0 +1,45 @@
+# SPDX-License-Identifier: Apache-2.0
+openapi: 3.0.3
+info:
+  title: NEURALWARE-X Inference API
+  version: "3.0.0"
+paths:
+  /predict:
+    post:
+      summary: Predict class probabilities
+      requestBody:
+        required: true
+        content:
+          text/csv:
+            schema:
+              type: string
+              example: "0,1\n1,0"
+          application/json:
+            schema:
+              type: object
+              properties:
+                instances:
+                  type: array
+                  items:
+                    type: array
+                    items: { type: number }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    label: { type: integer }
+                    probs:
+                      type: array
+                      items: { type: number }
+  /healthz:
+    get: { summary: Liveness probe, responses: { '200': { description: OK } } }
+  /readyz:
+    get: { summary: Readiness probe, responses: { '200': { description: OK } } }
+  /metrics:
+    get: { summary: Prometheus metrics, responses: { '200': { description: OK } } }

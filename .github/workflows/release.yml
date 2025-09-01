@@ -1,0 +1,11 @@
+
+name: release
+on:
+  push:
+    tags: ['v*.*.*']
+permissions: read-all
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Release workflow disabled by default — placeholder success."

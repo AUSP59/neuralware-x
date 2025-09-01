@@ -1,0 +1,10 @@
+# Profile for /usr/local/bin/nwx_serve
+profile usr.local.bin.nwx (attach_disconnected) {
+  #include <abstractions/base>
+  file,
+  network,
+  deny /proc/** w,
+  deny /sys/** rwklx,
+  /usr/local/bin/nwx_serve mr,
+  /usr/local/** r,
+}

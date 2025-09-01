@@ -1,0 +1,14 @@
+# SPDX-License-Identifier: Apache-2.0
+name: bench-regression
+on:
+  pull_request:
+jobs:
+  bench:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - run: sudo apt-get update && sudo apt-get install -y libbenchmark-dev
+      - run: python3 tools/bench_regression.py
+        env:
+          BENCH_REGRESSION_MAX: "10"

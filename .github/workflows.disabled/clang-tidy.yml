@@ -1,0 +1,16 @@
+# SPDX-License-Identifier: Apache-2.0
+name: clang-tidy
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+jobs:
+  tidy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y clang-tidy
+      - run: |
+          cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+          cmake --build build -j2 || true
+      - run: clang-tidy -p build $(git ls-files '*.cc' '*.cpp' '*.cxx' | tr '\n' ' ') || true

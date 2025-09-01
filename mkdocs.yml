@@ -1,0 +1,16 @@
+# SPDX-License-Identifier: Apache-2.0
+site_name: NEURALWARE-X
+theme:
+  name: material
+nav:
+  - Home: index.md
+  - Getting Started: getting-started.md
+  - Server: SERVER.md
+  - Calibration: CALIBRATION.md
+  - Evaluation: EVALUATION.md
+  - Kubernetes: KUBERNETES.md
+  - TLS: TLS.md
+  - Reproducible Builds: REPRODUCIBLE_BUILDS.md
+  - Model Card: MODEL_CARD.md
+  - API: API.md
+  - Whitepaper: WHITEPAPER.md

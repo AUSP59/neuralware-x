@@ -1,0 +1,15 @@
+# SPDX-License-Identifier: Apache-2.0
+
+- name: bug
+  color: D73A4A
+- name: enhancement
+  color: A2EEEF
+- name: documentation
+  color: 0075ca
+- name: ci
+  color: BFDADC
+- name: security
+  color: EE0701
+
+- name: good first issue
+  color: 7057ff

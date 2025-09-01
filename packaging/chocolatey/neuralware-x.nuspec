@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd">
+  <metadata>
+    <id>neuralware-x</id>
+    <version>1.0.0</version>
+    <title>NEURALWARE-X</title>
+    <authors>NEURALWARE-X Contributors</authors>
+    <description>Core binaries and tools</description>
+    <licenseUrl>https://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
+    <projectUrl>https://example.com</projectUrl>
+    <tags>c++ performance</tags>
+  </metadata>
+</package>

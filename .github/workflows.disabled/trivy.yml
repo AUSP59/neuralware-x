@@ -1,0 +1,30 @@
+# SPDX-License-Identifier: Apache-2.0
+name: trivy
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+jobs:
+  fs-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: aquasecurity/trivy-action@0.22.0
+        with:
+          scan-type: fs
+          ignore-unfixed: true
+          format: 'table'
+          vuln-type: 'os,library'
+          exit-code: '0'
+  image-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t nwx:scan .
+      - uses: aquasecurity/trivy-action@0.22.0
+        with:
+          image-ref: 'nwx:scan'
+          ignore-unfixed: true
+          format: 'table'
+          vuln-type: 'os,library'
+          exit-code: '0'

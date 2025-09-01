@@ -1,0 +1,7 @@
+# SPDX-License-Identifier: Apache-2.0
+extends: ["spectral:recommended"]
+rules:
+  operation-operationId: true
+  information-contact: true
+  openapi-tags: true
+  operation-tags: true

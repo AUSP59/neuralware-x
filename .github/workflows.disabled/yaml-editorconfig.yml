@@ -1,0 +1,20 @@
+# SPDX-License-Identifier: Apache-2.0
+name: lint-yaml-editorconfig
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install tools
+        run: |
+          sudo apt-get update && sudo apt-get install -y yamllint
+          curl -sSLo ec https://github.com/editorconfig-checker/editorconfig-checker/releases/download/3.4.0/ec-linux-amd64.tar.gz
+          tar -xzf ec && sudo mv bin/ec-linux-amd64 /usr/local/bin/ec
+      - name: yamllint
+        run: yamllint -s .
+      - name: editorconfig-checker
+        run: ec -no-color

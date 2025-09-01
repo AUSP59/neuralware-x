@@ -1,0 +1,13 @@
+{
+  "model_name": "NEURALWARE-X MLP",
+  "version": "6.0.0",
+  "intended_use": "Educational and benchmarking purposes; not for medical/financial decisions without further validation.",
+  "architecture": "Two-layer MLP with softmax output",
+  "metrics": {
+    "examples": ["accuracy", "nll", "ece"]
+  },
+  "ethical_considerations": [
+    "Bias evaluation via nwx_fairness",
+    "Data drift monitoring via nwx_drift"
+  ]
+}

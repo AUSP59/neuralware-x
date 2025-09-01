@@ -1,0 +1,19 @@
+
+name: hadolint
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+jobs:
+  lint-docker:
+    if: vars.ENABLE_HADOLINT == 'true'
+
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: docker/Dockerfile.build
+      - uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: docker/Dockerfile.runtime

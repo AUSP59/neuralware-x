@@ -1,0 +1,10 @@
+# OSSMETADATA
+
+name: NEURALWARE-X
+language: C++20
+license: Apache-2.0
+repository_policy: public
+default_branch: main
+created_utc: 2025-09-01T20:39:32.429610Z
+contact_security: security@nwx.example
+contact_maintainers: maintainers@nwx.example

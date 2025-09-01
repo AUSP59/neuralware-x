@@ -1,0 +1,73 @@
+
+name: security-scans
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: '0 3 * * 1'
+permissions: read-all
+jobs:
+  codeql:
+    if: vars.ENABLE_CODEQL == 'true'
+    uses: github/codeql-action/.github/workflows/codeql.yml@v3
+    with:
+      languages: cpp
+
+  semgrep:
+    if: vars.ENABLE_SEMGREP == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: returntocorp/semgrep-action@v1
+        with:
+          config: p/ci
+
+  gitleaks:
+    if: vars.ENABLE_GITLEAKS == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: gitleaks/gitleaks-action@v2
+        with:
+          config-path: .gitleaks.toml
+
+  osv:
+    if: vars.ENABLE_SECURITY_SCANS == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: google/osv-scanner-action@v1
+        with:
+          scan-args: -r .
+
+  trivy-fs:
+    if: vars.ENABLE_SECURITY_SCANS == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: aquasecurity/trivy-action@0.24.0
+        with:
+          scan-type: 'fs'
+          ignore-unfixed: true
+          format: 'table'
+          severity: 'CRITICAL,HIGH'
+
+  licensee:
+    if: vars.ENABLE_LICENSE_SCAN == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: benbalter/licensee-action@v2
+
+  scorecard:
+    if: vars.ENABLE_SCORECARD == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ossf/scorecard-action@v2.4.0
+        with:
+          results_file: results.sarif
+          results_format: sarif
+      - uses: github/codeql-action/upload-sarif@v3
+        with: { sarif_file: results.sarif }

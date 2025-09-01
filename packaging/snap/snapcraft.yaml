@@ -1,0 +1,17 @@
+# SPDX-License-Identifier: Apache-2.0
+name: neuralware-x
+base: core22
+version: '1.0.0'
+summary: NEURALWARE-X core
+description: |
+  Production-grade C++ core and tools.
+grade: stable
+confinement: strict
+apps:
+  nwx:
+    command: usr/local/bin/nwx_serve --port 8080
+parts:
+  nwx:
+    plugin: cmake
+    source: .
+    build-packages: [cmake, ninja-build, g++]

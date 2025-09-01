@@ -1,0 +1,20 @@
+# SPDX-License-Identifier: Apache-2.0
+name: Bug report
+description: Report a reproducible problem
+labels: [bug]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What happened and what did you expect?
+    validations: { required: true }
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Reproduction steps
+      description: Minimal steps to reproduce (include logs/versions)
+    validations: { required: true }
+  - type: input
+    id: version
+    attributes: { label: Version, placeholder: v1.2.3 }

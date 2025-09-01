@@ -1,0 +1,25 @@
+
+name: docs
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+permissions: read-all
+jobs:
+  build-docs:
+    if: vars.ENABLE_DOCS == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build Doxygen (if present)
+        run: |
+          if [ -f docs/doxygen/Doxyfile ]; then doxygen docs/doxygen/Doxyfile || true; else echo "No Doxygen config"; fi
+      - name: Build Sphinx (if present)
+        run: |
+          if [ -f docs/sphinx/requirements.txt ]; then pip install -r docs/sphinx/requirements.txt && sphinx-build -b html docs/sphinx docs_site || true; else echo "No Sphinx"; fi
+  deploy:
+    if: vars.ENABLE_DOCS == 'true'
+    runs-on: ubuntu-latest
+    needs: build-docs
+    steps:
+      - run: echo "Configure GitHub Pages in Settings → Pages before enabling."

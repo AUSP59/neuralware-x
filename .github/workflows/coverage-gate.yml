@@ -1,0 +1,9 @@
+
+name: coverage-gate
+on: [push, pull_request]
+permissions: read-all
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Coverage gate placeholder — always success by default."

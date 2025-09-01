@@ -1,0 +1,61 @@
+{
+  "version": 5,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 20,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "dev",
+      "hidden": false,
+      "generator": "Ninja",
+      "binaryDir": "build/dev",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "release",
+      "generator": "Ninja",
+      "binaryDir": "build/release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "NWX_HARDEN": "ON"
+      }
+    },
+    {
+      "name": "coverage",
+      "generator": "Ninja",
+      "binaryDir": "build/cov",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "NWX_ENABLE_COVERAGE": "ON"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "dev",
+      "configurePreset": "dev"
+    },
+    {
+      "name": "release",
+      "configurePreset": "release"
+    },
+    {
+      "name": "coverage",
+      "configurePreset": "coverage"
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "dev",
+      "configurePreset": "dev"
+    },
+    {
+      "name": "coverage",
+      "configurePreset": "coverage"
+    }
+  ]
+}

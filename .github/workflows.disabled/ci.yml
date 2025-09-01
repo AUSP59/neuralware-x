@@ -1,0 +1,54 @@
+# SPDX-License-Identifier: Apache-2.0
+name: CI
+on:
+  push:
+  pull_request:
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+      - name: Build
+        run: cmake --build build --parallel
+      - name: Test
+        run: ctest --test-dir build --output-on-failure
+  codeql:
+    name: CodeQL
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: github/codeql-action/init@v3
+        with:
+          languages: cpp
+      - uses: github/codeql-action/analyze@v3
+  dependency-review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/dependency-review-action@v4
+
+  integration:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build
+        run: ./scripts/build.sh -DCMAKE_BUILD_TYPE=Release
+      - name: Run CLI on XOR
+        run: ./out/bin/nwx --dataset ./examples/xor.csv --epochs 800 --optimizer adam --batch 4 --val_split 0.25 --patience 30 --standardize --activation relu | tee out.txt
+      - name: Assert accuracy >= 0.98
+        run: python3 - << 'PY'
+import re
+s=open('out.txt').read()
+m=re.search(r'acc=([0-9.]+)', s)
+assert m and float(m.group(1))>=0.98, s
+print('OK')
+PY

@@ -1,0 +1,5 @@
+# SPDX-License-Identifier: Apache-2.0
+Contact: mailto:security@nwx.example
+Policy: https://example.com/security
+Preferred-Languages: en
+Encryption: https://example.com/pgp.txt

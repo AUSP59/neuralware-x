@@ -1,0 +1,11 @@
+# SPDX-License-Identifier: Apache-2.0
+cmake_minimum_required(VERSION 3.20)
+project(nwx_bench CXX)
+find_package(benchmark QUIET)
+if (benchmark_FOUND)
+  add_executable(nwx_bench basic_bench.cpp)
+  target_link_libraries(nwx_bench PRIVATE benchmark::benchmark)
+  target_compile_features(nwx_bench PRIVATE cxx_std_17)
+else()
+  message(STATUS "Google Benchmark not found; skipping benches")
+endif()

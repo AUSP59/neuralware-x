@@ -1,0 +1,14 @@
+
+name: license-scan
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+jobs:
+  licensee:
+    if: vars.ENABLE_LICENSE_SCAN == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      if: vars.ENABLE_LICENSE_SCAN == 'true'
+      - uses: actions/checkout@v4
+      - uses: benbalter/licensee-action@v2

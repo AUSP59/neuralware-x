@@ -1,0 +1,16 @@
+syntax = "proto3";
+package nwx;
+
+message Row { repeated double values = 1; }
+message PredictRequest { repeated Row rows = 1; }
+message PredictResponse { repeated Row probs = 1; }
+
+service Inference {
+  // Unary batch
+  rpc Predict (PredictRequest) returns (PredictResponse);
+  // Server-side batching (unary)
+  rpc BatchPredict (PredictRequest) returns (PredictResponse);
+  // Bidirectional streaming
+  rpc PredictStream (stream Row) returns (stream Row);
+  rpc Predict (PredictRequest) returns (PredictResponse);
+}

@@ -1,0 +1,44 @@
+# SPDX-License-Identifier: Apache-2.0
+
+name: security-scan
+on:
+  schedule: [ { cron: '0 2 * * 1' } ]
+  workflow_dispatch:
+
+jobs:
+  osv:
+    if: vars.ENABLE_SECURITY_SCANS == 'true'
+
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: google/osv-scanner-action@v1
+        with:
+          scan-args: -r .
+  trivy:
+    if: vars.ENABLE_SECURITY_SCANS == 'true'
+
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: aquasecurity/trivy-action@0.24.0
+        with:
+          scan-type: 'fs'
+          ignore-unfixed: true
+          format: 'table'
+          severity: 'CRITICAL,HIGH'
+  sbom:
+    if: vars.ENABLE_SECURITY_SCANS == 'true'
+
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: anchore/sbom-action@v0
+        with:
+          path: .
+          format: cyclonedx-json
+          output-file: bom/sbom.cdx.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sbom
+          path: bom/sbom.cdx.json

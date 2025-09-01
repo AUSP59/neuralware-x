@@ -1,0 +1,13 @@
+
+# SPDX-License-Identifier: Apache-2.0
+FROM debian:12-slim
+RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates && rm -rf /var/lib/apt/lists/*
+# Create non-root user
+RUN useradd -r -u 10001 -g users appuser && mkdir -p /home/appuser && chown -R appuser:users /home/appuser
+WORKDIR /home/appuser
+# Expect CI to copy built binaries here (see release workflow)
+COPY ./bin/ ./bin/
+ENV PATH="/home/appuser/bin:${PATH}"
+USER appuser
+ENTRYPOINT ["nwx"]
+CMD ["--help"]

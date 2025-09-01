@@ -1,0 +1,10 @@
+{
+  "name": "NEURALWARE-X OMEGA",
+  "image": "mcr.microsoft.com/devcontainers/cpp:ubuntu",
+  "features": {},
+  "customizations": {
+    "vscode": {
+      "extensions": ["ms-vscode.cpptools", "twxs.cmake", "ms-vscode.cmake-tools"]
+    }
+  }
+}

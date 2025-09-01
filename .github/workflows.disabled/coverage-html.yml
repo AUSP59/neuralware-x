@@ -1,0 +1,21 @@
+# SPDX-License-Identifier: Apache-2.0
+name: coverage-html
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+jobs:
+  covhtml:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug -DNWX_ENABLE_COVERAGE=ON
+          cmake --build build -j
+          ctest --test-dir build --output-on-failure || true
+      - run: pipx install gcovr
+      - run: gcovr -r . --html --html-details -o coverage.html
+      - uses: actions/upload-artifact@v4
+        with:
+          name: coverage-html
+          path: coverage.html

@@ -1,0 +1,22 @@
+
+name: format-check
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+jobs:
+  clang-format:
+    if: vars.ENFORCE_FORMAT == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install clang-format
+        run: sudo apt-get update && sudo apt-get install -y clang-format
+      - name: Check formatting
+        run: |
+          files=$(git ls-files '*.c' '*.cc' '*.cpp' '*.cxx' '*.h' '*.hpp' '*.hxx')
+          if [ -n "$files" ]; then
+            diff -u <(cat $files) <(clang-format $files) || (echo 'Formatting differs' && exit 1)
+          else
+            echo "No C/C++ files to format."
+          fi

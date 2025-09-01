@@ -1,0 +1,24 @@
+
+name: binary-artifacts
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+jobs:
+  check:
+    if: vars.ENFORCE_BINARY_ARTIFACTS == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Find unexpected binaries (>5MB or ELF/PE)
+        run: |
+          set -euo pipefail
+          FAIL=0
+          while IFS= read -r -d '' f; do
+            if [ -f "$f" ]; then
+              sz=$(stat -c%s "$f" 2>/dev/null || stat -f%z "$f")
+              if [ "$sz" -gt 5242880 ]; then echo "Large file: $f ($sz bytes)"; FAIL=1; fi
+              file "$f" | grep -Eq 'ELF|PE32' && { echo "Binary detected: $f"; FAIL=1; }
+            fi
+          done < <(git ls-files -z)
+          if [ $FAIL -eq 1 ]; then exit 1; fi
