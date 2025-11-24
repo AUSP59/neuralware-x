@@ -6,7 +6,7 @@ jobs:
   build-docs:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Build docs if configs exist (non-fatal)
         run: |
           if [ -f docs/doxygen/Doxyfile ]; then doxygen docs/doxygen/Doxyfile || true; fi
